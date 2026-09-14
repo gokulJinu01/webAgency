@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 :root{font-family:'DM Sans',sans-serif;color:#263e34;background:#e8ece9;font-synthesis:none}*{box-sizing:border-box}html,body,#root{width:100%;height:100%;margin:0;overflow:hidden}button,input,textarea,select{font:inherit}button{border:0;color:inherit;cursor:pointer}button svg{flex-shrink:0}button:disabled{opacity:.3;cursor:default}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[role=tab]:focus-visible{outline:2px solid var(--accent);outline-offset:4px}h1,h2,h3,p{margin:0}h1,h2{font-family:'Manrope',sans-serif;font-weight:500;letter-spacing:-.065em;line-height:1.08}h1{font-size:clamp(46px,5.6vw,92px)}h2{font-size:clamp(38px,4.6vw,74px)}h1 span,h2 span{color:var(--accent)}p{font-size:16px;line-height:1.65;color:var(--muted)}button{transition:background .25s,box-shadow .25s,transform .25s}button:hover:not(:disabled)>svg:last-child{transform:translate(2px,-2px)}button svg{transition:transform .25s}button:active:not(:disabled){transform:translateY(1px)}
 .app-shell{--bg:#e8ece9;--ink:#263e34;--muted:#6b7770;--accent:#748879;--dark:#315344;--shade:#cbd1cd;--light:#fff;--hover:#254435;--raised:9px 9px 24px var(--shade),-9px -9px 24px var(--light);--inset:inset 4px 4px 10px var(--shade),inset -4px -4px 10px var(--light);background:var(--bg);color:var(--ink);height:100dvh;width:100%;display:grid;grid-template-rows:100px minmax(0,1fr) 82px;transition:background .7s,color .7s;overflow:hidden}.app-shell.section-4{--bg:#e1e7f5;--shade:#c3cce2;--light:#f9fbff;--ink:#263451;--muted:#65738e;--accent:#526eb7;--dark:#465f9f;--hover:#526eb7}
 .site-header{display:flex;align-items:center;justify-content:space-between;padding:0 5vw;gap:25px}.brand{display:flex;align-items:center;gap:11px;background:none;padding:0;flex-shrink:0}.logo-mark{width:44px;height:44px}.wordmark{font-family:'Manrope',sans-serif;display:flex;align-items:baseline;gap:6px;font-size:32px;letter-spacing:-1.8px;font-weight:800}.wordmark>span{font-family:'DM Sans',sans-serif;font-size:18px;letter-spacing:-.5px;font-weight:400}.top-nav{display:flex;gap:5px;padding:6px;border-radius:40px;box-shadow:var(--inset)}.top-nav button{padding:12px 23px;border-radius:28px;background:none;font-size:14px;color:var(--muted)}.top-nav button.selected{background:var(--bg);color:var(--ink);box-shadow:4px 4px 10px var(--shade),-4px -4px 10px var(--light)}.header-right{display:flex;align-items:center;gap:12px}.header-cta{display:flex;align-items:center;gap:24px;padding:15px 23px;background:var(--bg);border-radius:28px;box-shadow:5px 5px 13px var(--shade),-5px -5px 13px var(--light);font-size:14px}.mobile-menu{display:none!important}
@@ -50,3 +49,90 @@
 @media(max-width:760px){.project-art.site-display{padding:19px 19px 38px;border-radius:20px}.site-display-toolbar{height:25px;font-size:9px}.site-display-browser{max-width:490px}.site-display-browser img{max-height:27dvh}}
 @media(max-height:700px){.project-art.site-display{padding:16px 20px 35px}.site-display-toolbar{height:24px}.site-display-browser img{max-height:27dvh}}
 @media(prefers-reduced-motion:reduce){.site-display-browser{transition:none}.project-card:hover .site-display-browser{transform:none}}
+
+/* Sections scroll vertically when their content doesn't fit (small laptops, zoomed text, phones in landscape).
+   "safe" alignment keeps overflowing content reachable instead of cropping it above the top edge. */
+.panel{overflow-y:auto;overscroll-behavior-y:contain;scrollbar-width:thin}
+.hello-panel,.process-panel,.contact-panel{align-content:safe center}
+.work-panel{justify-content:safe center}.work-panel>*{flex-shrink:0}
+.services-panel{align-items:safe center}
+:is(h1,h2,h3)[tabindex="-1"]:focus{outline:none}
+
+/* Contrast: muted text at least 4.5:1, form field edges at least 3:1. */
+.app-shell.section-0{--muted:#56655b}.app-shell.section-1{--muted:#4f614f}.app-shell.section-2{--muted:#575f58}.app-shell.section-3{--muted:#465e51}.app-shell.section-4{--muted:#56637c}
+input,textarea,select{border-color:color-mix(in srgb,var(--ink) 62%,var(--bg))}
+input::placeholder,textarea::placeholder{color:var(--muted)}
+
+/* Work: concept site cards + "also built" row. */
+.project-card{position:relative}
+.card-button{background:none;padding:0;font:inherit;text-align:left;color:inherit}
+/* No press nudge here: a transform would make the button the containing block for its full-card ::after overlay mid-click, so the click would miss. */
+.card-button:active:not(:disabled){transform:none}
+.card-button::after{content:'';position:absolute;inset:0;border-radius:19px}
+.card-button:focus-visible{outline:none}
+.project-card:has(.card-button:focus-visible) .project-art{outline:2px solid var(--accent);outline-offset:4px}
+.project-art.concept-art{display:flex;padding:22px 24px 46px;background:linear-gradient(145deg,#cbd9c8,#a9bfad);border:1px solid #ffffff70;border-radius:24px}
+.concept-art.art-bakery{background:linear-gradient(145deg,#e7d7c3,#c8ab8b)}
+.concept-art .project-open{width:34px;height:34px;bottom:9px;right:13px;background:#ffffffb8;box-shadow:none;border:1px solid #ffffff90}
+.concept-site{container-type:inline-size;flex:1;min-width:0;display:flex;flex-direction:column;border-radius:10px;overflow:hidden;box-shadow:0 14px 28px #273b3430;transition:transform .35s,box-shadow .35s}
+.project-card:hover .concept-site{transform:translateY(-3px);box-shadow:0 19px 30px #273b3438}
+.concept-earlybird{background:#f5f4e9;color:#42593e}
+.concept-bakery{background:#f7eee2;color:#6a3e22}
+.concept-nav{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:3.4cqi 4.6cqi}
+.concept-logo{font:700 4.8cqi/1 Georgia,serif;letter-spacing:-.04em}
+.concept-bakery .concept-logo{font-style:italic;font-weight:400}
+.concept-links{font-size:2.4cqi;opacity:.8;white-space:nowrap}
+.concept-hero{flex:1;min-height:0;display:grid;grid-template-columns:1.1fr .9fr;gap:3.5cqi;padding:0 4.6cqi 4.6cqi}
+.concept-copy{align-self:center;display:flex;flex-direction:column;align-items:flex-start;min-width:0}
+.concept-kicker{font-size:2.1cqi;letter-spacing:.12em;text-transform:uppercase;opacity:.75;margin-bottom:2.2cqi}
+.concept-title{font:400 7.4cqi/1.02 Georgia,serif;letter-spacing:-.03em}
+.concept-tag{margin-top:3.4cqi;padding:1.4cqi 2.2cqi;border-radius:3px;font-size:2.3cqi;background:#42593e;color:#f5f4e9}
+.concept-bakes{display:flex;flex-direction:column;align-self:stretch;margin-top:3cqi;font-size:2.4cqi}
+.concept-bakes>span{display:flex;justify-content:space-between;gap:8px;padding:1.3cqi 0;border-bottom:1px solid #6a3e2230}
+.concept-bakes>span>span:last-child{opacity:.7}
+.concept-hero img{width:100%;height:100%;min-height:0;object-fit:cover;border-radius:40cqi 40cqi 4px 4px}
+.image-slot{min-height:0;display:flex;align-items:center;justify-content:center;border-radius:40cqi 40cqi 4px 4px;background:repeating-linear-gradient(135deg,#ecdcc6 0 10px,#f3e7d6 10px 20px);color:#b08663}
+.work-footer{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.also-built{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:14px;color:var(--muted)}
+.also-built button{padding:9px 14px;border-radius:20px;background:var(--bg);color:var(--ink);font-size:13px;box-shadow:3px 3px 8px var(--shade),-3px -3px 8px var(--light)}
+.work-panel{gap:26px}
+
+/* Process: FAQ sits under the intro on wide screens and below the steps on phones. */
+.process-panel{row-gap:0;grid-template-rows:auto auto}
+.process-intro{grid-column:1;grid-row:1}.process-surface{grid-column:2;grid-row:1/3;align-self:center}.faq{grid-column:1;grid-row:2}
+.process-intro h2{font-size:clamp(34px,3.8vw,60px)}
+.faq{margin-top:24px;max-width:520px}
+.faq-title{font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.faq details{border-bottom:1px solid color-mix(in srgb,var(--ink) 16%,transparent)}
+.faq summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;font-size:15px;cursor:pointer;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary svg{flex-shrink:0;transition:transform .25s}
+.faq details[open] summary svg{transform:rotate(180deg)}
+.faq summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.faq details p{font-size:14px;line-height:1.55;padding:0 0 12px}
+
+/* Contact: direct email / booking, links in notes and footer. */
+.contact-direct{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.contact-direct .portfolio-link{gap:10px}
+.form-error a,.form-result a,.privacy-note a,.footer-location a{color:var(--dark);text-underline-offset:3px}
+.footer-location a{color:inherit}
+
+/* Project dialog. */
+.project-dialog .dialog-kind{font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin:8px 50px 0 0}
+.project-dialog h2{margin-top:6px}
+.dialog-art{height:auto;aspect-ratio:16/9;max-height:32dvh;margin-top:22px;padding:16px;border-radius:16px}
+.dialog-features{list-style:none;display:grid;gap:9px;margin:20px 0 0;padding:0;font-size:15px}
+.dialog-features li{display:flex;align-items:center;gap:10px}
+.dialog-features svg{color:var(--accent);flex-shrink:0}
+
+@media(max-width:1100px){.process-panel{row-gap:0}}
+@media(max-width:760px){
+ .work-panel{gap:20px}.work-footer{flex-direction:column;gap:12px}.also-built{justify-content:center;font-size:12px;gap:6px}.also-built button{padding:7px 11px;font-size:12px}
+ .project-art.concept-art{padding:16px 16px 42px;border-radius:20px}
+ .process-panel{grid-template-columns:1fr;row-gap:27px}.process-intro,.process-surface,.faq{grid-column:1;grid-row:auto}.faq{margin-top:0}
+ .contact-direct{margin-top:14px;gap:8px}.contact-direct .portfolio-link{font-size:13px;padding:10px 12px}
+ .founder-row{flex-direction:column;align-items:flex-start;gap:12px}
+ .dialog-art{padding:10px}
+}
+@media(max-width:760px) and (max-height:760px){.process-panel{row-gap:21px}}
+@media(max-width:760px) and (max-height:700px){.process-panel{row-gap:18px}}

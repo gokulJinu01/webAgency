@@ -1,63 +1,48 @@
-# webAgency
+# Luko Designs
 
-Luko Designs
-
-A MERN agency website: React + Vite frontend, Express/Node API, MongoDB via Mongoose. Luko Designs is the selected studio name. The Work section features RailTech AgentPod and MME from Gokul’s existing portfolio. These are personal portfolio projects, not claimed Luko client commissions. The interactive Earlybird hero remains a clearly marked fictional concept. Services are presented without pricing; enquiries are invited for individual quotes.
+The website for Luko Designs, an independent web design studio in Toronto. A single-page React + Vite site, hosted as static files on Vercel. Enquiries are sent by email through [Web3Forms](https://web3forms.com), with no server or database.
 
 ## Run locally
 
-1. Run `npm ci`.
-2. Copy `.env.example` to `.env` and set `MONGODB_URI` to your database.
-3. Set `VITE_API_URL=http://localhost:3001` and `CLIENT_ORIGINS=http://localhost:5173`.
-4. Run `npm run server`, and in another terminal `npm run dev`.
-5. Run `npm test` for enquiry validation checks.
-
-## Hosted preview and production
-
-The Sites preview hosts the built React frontend. It does not run the Express process or provide MongoDB. Its form explicitly states that messages are not sent when no API is configured, and it never claims a successful delivery.
-
-To receive enquiries, deploy this repository to a Node-capable host and connect MongoDB. Set `MONGODB_URI`, `PORT`, and `CLIENT_ORIGINS` (comma-separated, exact permitted frontend origins). Set `TRUST_PROXY_HOPS` to the host's known trusted proxy count, only if required. Build with `VITE_API_URL` set to the public Express origin, then run `npm run build` and `npm start`. Express can serve the frontend and API together. Use the same public origin as `VITE_API_URL` when serving them together. Alternatively keep Sites as the frontend and rebuild it using the separate Express URL.
-
-Enquiries are saved in MongoDB's `enquiries` collection; no email notification service or admin dashboard is implied. Manage records securely through your database administration tooling. Establish an appropriate retention process before collecting real client details. No database credential belongs in frontend variables or Git.
-
-API: `GET /api/health` (503 until database ready); `POST /api/enquiries` (validated payload, 16 KB body limit, 5 submissions per IP per 15 minutes, honeypot, no public read endpoint). For multiple server instances, use a shared rate-limit store. An API 201 means the record was saved, not that an email was sent.
-
-## Site behavior
-
-Five horizontal sections use native scroll snapping; navigation and progress are synchronized with IntersectionObserver. Mouse wheel, trackpad, touch swipe, buttons and left/right keys navigate. Sections use viewport-sized layouts with no vertical page scroll. On compact screens, portfolio projects switch in place and the live hero preview has its own toggle. The contact form uses two compact steps. Inactive sections are inert. Motion respects reduced-motion preferences. Café colour/device/menu controls are local interactive design demonstrations.
-
-## Editing
-
-Copy, studio name, services and interactions: `src/main.jsx`. Design and breakpoints: `src/style.css`. Enquiry API: `server/index.js`. Validation: `server/validation.js`. Asset: original generated café photograph in `public/cafe.jpg`.
-
-## Portfolio sources
-
-Descriptions and project links were reviewed from `gokulJinu01/portfolio/src/components/ProjectsSection.js` at commit `01bbb5d592746bedd6bb54ec3ec5d28a9e30d110`. Screenshots: `src/images/railtech.png` and `src/images/mme.png` in that repository. The MME project links to https://mme.railtech.io/. Project descriptions are based on the owner’s published portfolio; no commercial results or independent live-service verification are implied.
-
-## Install from the source archive on your Mac
-
-Download `luko-designs-source.zip`. It contains an `agency/` directory.
-
 ```sh
-mkdir -p /Users/goku/Projects
-unzip ~/Downloads/luko-designs-source.zip -d /Users/goku/Projects
-cd /Users/goku/Projects/agency
 npm ci
-npm run dev
+cp .env.example .env   # then fill in the values
+npm run dev            # http://localhost:5173
 ```
 
-Use an empty destination so existing work is not overwritten.
+`npm run build` outputs the site to `dist/`, and `npm run preview` serves that build locally.
 
-## Push to your GitHub repository
+## Settings (`.env` locally, Vercel → Settings → Environment Variables in production)
 
-The connected GitHub integration returned HTTP 403 when attempting to initialize `gokulJinu01/webAgency`; no source was pushed there from this session. From the extracted folder, using your own authorized GitHub login:
+| Variable | What it does |
+| --- | --- |
+| `VITE_WEB3FORMS_KEY` | Access key from web3forms.com, created with the email that should receive enquiries. Without it, the form tells visitors to email directly and nothing is sent. |
+| `VITE_BOOKING_URL` | Optional Cal.com / Calendly link. The "Book a call" button only appears when this is set. |
 
-```sh
-git init -b main
-git add .
-git commit -m "first commit"
-git remote add origin https://github.com/gokulJinu01/webAgency.git
-git push -u origin main
-```
+Both values end up in the public site, and that's expected. Web3Forms keys are designed for browser use. Rebuild or redeploy after changing them.
 
-No `.env`, dependencies, compiled output, or credentials are included in the source archive. Configure `.env` from `.env.example` locally when connecting the enquiry backend.
+## Deploy to Vercel
+
+1. Import the GitHub repo in Vercel. It detects Vite automatically (build `npm run build`, output `dist`).
+2. Add the environment variables above.
+3. Enable **Web Analytics** in the Vercel project (cookieless, already wired up in `src/main.jsx`).
+4. Add your domain, then update `lukodesigns.ca` in `index.html`, `public/robots.txt`, `public/sitemap.xml`, and `public/privacy.html`.
+
+`vercel.json` sets security headers, including a Content Security Policy that only allows requests to this site and `api.web3forms.com`. If you add a third-party script or embed, allow its domain there.
+
+## Where things live
+
+- **Copy, projects, FAQ, form logic:** `src/main.jsx` (contact email in `CONTACT_EMAIL` at the top)
+- **Design and breakpoints:** `src/style.css`
+- **Privacy policy:** `public/privacy.html`
+- **Share preview image and icons:** `public/og-image.png`, `public/apple-touch-icon.png`, `public/favicon.svg`
+
+## Site behaviour
+
+Five horizontal sections use native scroll snapping. Wheel, trackpad, swipe, the arrow keys, and the header/footer controls all navigate, and the URL hash (`#work`, `#contact`, …) follows the current section so links can point straight at one. When a section's content is taller than the screen (small laptops, zoomed text, phones in landscape), the section scrolls vertically first and only moves on once it reaches the end. Inactive sections are inert, and focus moves to the new section's heading. Motion respects reduced-motion preferences.
+
+## Content notes
+
+- **earlybird café** and **rise & rye bakery** are self-initiated concepts, labelled as such on the site. The bakery image slot is marked `FILL IN WITH PROPER IMAGE` in `src/main.jsx`.
+- **RailTech AgentPod** and **MME** are Gokul's personal portfolio projects that predate Luko Designs, not client commissions.
+- The FAQ answers are drafts. Check they match how you actually work.
