@@ -14,19 +14,19 @@ Captured from the live site on September 16, 2026.
 
 The opening section introduces the studio with an interactive café preview, device controls, and colour palettes.
 
-![Luko Designs homepage with sage-green styling and an interactive café website preview](docs/images/home.png)
+![Luko Designs homepage with sage-green styling and an interactive café website preview](docs/images/home.jpg)
 
 ### Work showcase
 
 Concept websites for local businesses sit alongside links to earlier platform projects.
 
-![Work section showing the earlybird café concept and project navigation](docs/images/work.png)
+![Work section showing the earlybird café concept and project navigation](docs/images/work.jpg)
 
 ### Contact
 
 A two-step enquiry form collects contact details before asking about the project.
 
-![Contact section with direct email and the first step of the enquiry form](docs/images/contact.png)
+![Contact section with direct email and the first step of the enquiry form](docs/images/contact.jpg)
 
 ## Run locally
 
