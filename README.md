@@ -2,6 +2,32 @@
 
 The website for Luko Designs, an independent web design studio in Toronto. A single-page React + Vite site, hosted as static files on Vercel. Enquiries are sent by email through [Web3Forms](https://web3forms.com), with no server or database.
 
+## Live site
+
+[Visit Luko Designs](https://webagency-mu.vercel.app/)
+
+## Screenshots
+
+Captured from the live site on September 16, 2026.
+
+### Homepage
+
+The opening section introduces the studio with an interactive café preview, device controls, and colour palettes.
+
+![Luko Designs homepage with sage-green styling and an interactive café website preview](docs/images/home.png)
+
+### Work showcase
+
+Concept websites for local businesses sit alongside links to earlier platform projects.
+
+![Work section showing the earlybird café concept and project navigation](docs/images/work.png)
+
+### Contact
+
+A two-step enquiry form collects contact details before asking about the project.
+
+![Contact section with direct email and the first step of the enquiry form](docs/images/contact.png)
+
 ## Run locally
 
 ```sh
