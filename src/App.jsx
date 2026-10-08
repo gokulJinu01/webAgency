@@ -98,10 +98,19 @@ function App(){
  const go=n=>{
   const next=Math.max(0,Math.min(4,n));
   if(next!==activeRef.current)focusOnArrive.current=true;
+  const el=track.current;if(!el)return;
   const behavior=window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth';
+  const stackedNow=stackedRef.current,card=el.children[next];
   // Phones scroll the page; wider screens slide the panels sideways.
-  if(stackedRef.current)track.current?.children[next]?.scrollIntoView({behavior,block:'start'});
-  else track.current?.scrollTo({left:track.current.clientWidth*next,behavior});
+  const jump=how=>{if(stackedNow)card?.scrollIntoView({behavior:how,block:'start'});else el.scrollTo({left:el.clientWidth*next,behavior:how})};
+  const x=el.scrollLeft,y=el.scrollTop,pageY=window.scrollY;
+  jump(behavior);
+  // Deliberate navigation decides the current section itself; the observer below only has to follow
+  // scrolling and swiping, which it can be slow or wrong about on tall stacked sections.
+  activeRef.current=next;setActive(next);
+  // Some browsers ignore smooth scrolling altogether, which would leave every nav button dead. If nothing has
+  // started moving, go there instantly instead.
+  if(behavior==='smooth')setTimeout(()=>{if(el.scrollLeft===x&&el.scrollTop===y&&window.scrollY===pageY)jump('instant')},180);
   setMobileNav(false);
  };
  useEffect(()=>{
@@ -119,7 +128,9 @@ function App(){
    setActive(start);activeRef.current=start;
   }
   started.current=true;
-  const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){const i=Number(e.target.dataset.index);setActive(i);activeRef.current=i}}),{root:stacked?null:el,threshold:stacked?.4:.6,rootMargin:stacked?'-20% 0px -40% 0px':'0px'});
+  // Stacked sections are often taller than the viewport, so a ratio threshold can never be met. Watch a thin
+  // band across the middle of the screen instead: whichever section crosses it is the one being read.
+  const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){const i=Number(e.target.dataset.index);setActive(i);activeRef.current=i}}),{root:stacked?null:el,threshold:stacked?0:.6,rootMargin:stacked?'-45% 0px -45% 0px':'0px'});
   el.querySelectorAll('.panel').forEach(p=>observer.observe(p));
   const wheel=e=>{
    if(e.ctrlKey||e.target.closest('textarea,select,input'))return;if(Math.abs(e.deltaX)>Math.abs(e.deltaY))return;
