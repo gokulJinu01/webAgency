@@ -4,7 +4,7 @@ The website for Luko Designs, an independent web studio in Toronto — websites,
 
 ## Live site
 
-[Visit Luko Designs](https://webagency-mu.vercel.app/)
+[Visit Luko Designs](https://lukodesign.design/)
 
 ## Run locally
 
@@ -30,7 +30,7 @@ Both values end up in the public site, and that's expected. Web3Forms keys are d
 1. Import the GitHub repo in Vercel. It detects Vite automatically (build `npm run build`, output `dist`).
 2. Add the environment variables above.
 3. Enable **Web Analytics** in the Vercel project (cookieless, already wired up in `src/main.jsx`).
-4. The site URL appears in `index.html` (canonical, Open Graph, structured data), `public/robots.txt`, `public/sitemap.xml`, and `public/privacy.html`. It currently points at `https://webagency-mu.vercel.app`; swap it for your own domain when you buy one.
+4. The site URL appears in `index.html` (canonical, Open Graph, structured data), `public/robots.txt`, `public/sitemap.xml`, and `public/privacy.html`. It currently points at `https://lukodesign.design`; swap it for your own domain when you buy one.
 
 `vercel.json` sets security headers, including a Content Security Policy that only allows requests to this site and `api.web3forms.com`, and caches hashed assets in `/assets/` for a year. If you add a third-party script or embed, allow its domain there.
 
